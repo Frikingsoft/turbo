@@ -16,6 +16,7 @@ let menu_pagina=[
 ]
 let mensaje="Ingrese una Opción"
 
+const controlador_rutas = path.join(__dirname , "index.js")
 
 const crear_pagina=async()=>{
     tipo_ruta= await enviar_mensaje(mensaje,menu_pagina)
@@ -24,6 +25,15 @@ const crear_pagina=async()=>{
     middle = await preguntar_mensaje("Quiere agregar un middleware S/N")
     if(middle.toLowerCase()=== "s"){
         middleware = await preguntar_mensaje("Ingrese el nombre del Middleware")
+        let ruta_middle= path.join(__dirname, 'middleware')
+        let contenido = `const ${middleware} = (req, res, next) => {
+            
+}
+export{
+    ${middleware}
+}
+`
+        crear_nuevo(middleware,ruta_middle,contenido)
     }
     let contenido=`const ${pagina} = (req,res)=>{
     
@@ -33,13 +43,15 @@ export{
 }
 `   
     tipo_ruta = path.join(__dirname, 'rutas',tipo_ruta)
+   
     crear_carpeta(tipo_ruta)
-    crear_nuevo(pagina,contenido)
-    controlador(middleware)
+    crear_nuevo(pagina,tipo_ruta,contenido)
+    
+    console.log(controlador_rutas)
     process.exit()
 }
 
-let crear_nuevo =(pagina , contenido)=>{
+let crear_nuevo =(pagina ,tipo_ruta, contenido)=>{
     let archivo= path.join(tipo_ruta, `${pagina}.js`);
     if(!fs.existsSync(tipo_ruta)){
         fs.mkdirSync(tipo_ruta, { recursive: true }) // Crea el directorio si no existe
@@ -59,12 +71,9 @@ const crear_carpeta = (nombreCarpeta) => {
     } else {
         console.log(`La carpeta ya existe: ${rutaCarpeta}`);
     }
-
 }
-const controlador=(middleware)=>{
-   let carpeta_controlador = path.join(__dirname, 'controlador')
-   crear_nuevo(carpeta_controlador,middleware)
-   
+const controlador=()=>{
+    
 }
 export{
     crear_pagina
