@@ -1,8 +1,33 @@
-import chalk from "chalk"
+import { enviar_mensaje } from "../turbo.js"
+import {crear_pagina } from "../crear/crear_pagina.js"
+let menu_crear = [
+    {id:1 ,nombre:"Crear Pagina"},
+    {id:2 ,nombre:"Crear Middleware"},
+    {id:3 ,nombre:"Crear Controlador"},
+    {id:4 ,nombre:"Salir"},
+]
+let mensaje = "Ingrese una Opción"
+
+const crear = async()=>{
+    const opcion = await enviar_mensaje(mensaje,menu_crear)
+    switch (opcion) {
+        case "Crear Pagina":
+            crear_pagina()
+            break
+    
+        default:
+            break
+    }
+}
+export{
+    crear
+}
+/*import chalk from "chalk"
 import fs from 'fs'
 import path from 'path'
 import { __dirname } from "../../config.js"
 import readline  from 'readline'
+import { enviar_mensaje } from "./../turbo.js"
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -13,7 +38,9 @@ let menu_crear = [
     {id:3 ,nombre:"Crear Controlador"},
     {id:4 ,nombre:"Salir"},
 ]
-let mensaje = chalk.rgb(20, 89, 174).bold("Ingrese una Opción")
+let mensaje = "Ingrese una Opción"
+enviar_mensaje(mensaje,menu_crear)
+
 let opciones_crear =[
     {
         type:"list",
@@ -23,9 +50,9 @@ let opciones_crear =[
     }
     
 ]
-
-const crear_pagina = () => {
-    console.log("crear pagina")    
+opcion_elegida =  await inquirer.prompt(opciones_crear)
+const crear_pagina = (e) => {
+    console.log("ingrese el nombre de la pagina")    
 }
 const crear_middleware = () => {
     console.log("crear middleware")    
@@ -65,3 +92,4 @@ export{
     opciones_crear
 }
     */
+   
