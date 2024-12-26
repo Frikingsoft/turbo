@@ -75,11 +75,14 @@ const controlador=(tipo_ruta,ruta,pagina)=>{
     tipo_ruta = tipo_ruta.toLowerCase()
     let contenido_rutas
     contenido_rutas=`\nimport { ${pagina} } from "./rutas/${tipo_ruta}/${pagina}.js"`
+    if(middleware){
     contenido_rutas+=`\nimport { ${middleware} } from "./middleware/${middleware}.js"`
-    middleware!=null || undefined
-    ? contenido_rutas += `\nservidor.${tipo_ruta}("${ruta}",${middleware},${pagina})`
-    : contenido_rutas += `\nservidor.${tipo_ruta}("${ruta}",${pagina})`
-
+    contenido_rutas += `\nservidor.${tipo_ruta}("${ruta}",${middleware},${pagina})`
+    
+}
+else{
+contenido_rutas += `\nservidor.${tipo_ruta}("${ruta}",${pagina})`
+}
     try {
         // Verifica si el archivo existe
         if (!fs.existsSync(controlador_rutas)) {
