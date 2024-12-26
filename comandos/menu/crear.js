@@ -1,5 +1,6 @@
 import { enviar_mensaje } from "../turbo.js"
 import {crear_pagina } from "../crear/crear_pagina.js"
+import { crear_middleware } from "../crear/crear_middleware.js"
 let menu_crear = [
     {id:1 ,nombre:"Crear Pagina"},
     {id:2 ,nombre:"Crear Middleware"},
@@ -14,10 +15,13 @@ const crear = async()=>{
         case "Crear Pagina":
             crear_pagina()
             break
-    
+        case "Crear Middleware":
+            crear_middleware()
+            break
         default:
             break
     }
+  
 }
 export{
     crear

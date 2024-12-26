@@ -93,6 +93,7 @@ const controlador=(tipo_ruta,ruta,pagina)=>{
     } catch (error) {
         console.error('Error al agregar contenido:', error.message);
     }
+    process.exit()
 }
 export{
     crear_pagina
