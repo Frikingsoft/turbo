@@ -42,12 +42,11 @@ export{
     ${pagina}
 }
 `   
-    tipo_ruta = path.join(__dirname, 'rutas',tipo_ruta)
+    const ruta_metodo = path.join(__dirname, 'rutas',tipo_ruta)
    
-    crear_carpeta(tipo_ruta)
-    crear_nuevo(pagina,tipo_ruta,contenido)
-    
-    console.log(controlador_rutas)
+    crear_carpeta(ruta_metodo.toLowerCase())
+    crear_nuevo(pagina,ruta_metodo,contenido)
+    controlador(tipo_ruta,ruta,pagina)    
     process.exit()
 }
 
@@ -72,8 +71,28 @@ const crear_carpeta = (nombreCarpeta) => {
         console.log(`La carpeta ya existe: ${rutaCarpeta}`);
     }
 }
-const controlador=()=>{
-    
+const controlador=(tipo_ruta,ruta,pagina)=>{
+    tipo_ruta = tipo_ruta.toLowerCase()
+    let contenido_rutas
+    contenido_rutas=`\nimport { ${pagina} } from "./rutas/${tipo_ruta}/${pagina}.js"`
+    contenido_rutas+=`\nimport { ${middleware} } from "./middleware/${middleware}.js"`
+    middleware!=null || undefined
+    ? contenido_rutas += `\nservidor.${tipo_ruta}("${ruta}",${middleware},${pagina})`
+    : contenido_rutas += `\nservidor.${tipo_ruta}("${ruta}",${pagina})`
+
+    try {
+        // Verifica si el archivo existe
+        if (!fs.existsSync(controlador_rutas)) {
+            console.error('El archivo index.js no existe en la ruta:', controlador_rutas);
+            return;
+        }
+
+        // Agrega contenido al archivo
+        fs.appendFileSync(controlador_rutas, contenido_rutas);
+        console.log('Contenido agregado exitosamente a:', controlador_rutas);
+    } catch (error) {
+        console.error('Error al agregar contenido:', error.message);
+    }
 }
 export{
     crear_pagina
